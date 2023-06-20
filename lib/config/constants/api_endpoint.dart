@@ -17,6 +17,7 @@ class ApiEndpoints {
   static const String uploadImage = "upload/uploadImage";
 
   // ====================== Batch Routes ======================
+
   static const String createBatch = "batch/createBatch";
   static const String getAllBatch = "batch/getAllBatches";
 
