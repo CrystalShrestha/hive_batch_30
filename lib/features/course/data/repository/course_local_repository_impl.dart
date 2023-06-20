@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/features/course/data/data_source/course_local_data_source.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
-import 'package:student_clean_arch/features/course/domain/repository/course_repository.dart';
+
+import '../../../../core/failure/failure.dart';
+import '../../domain/entity/course_entity.dart';
+import '../../domain/repository/course_repository.dart';
+import '../data_source/course_local_data_source.dart';
 
 final courseLocalRepoProvider = Provider<ICourseRepository>((ref) {
   return CourseLocalRepositoryImpl(

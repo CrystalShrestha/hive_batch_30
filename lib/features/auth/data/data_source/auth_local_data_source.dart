@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/core/network/local/hive_service.dart';
-import 'package:student_clean_arch/features/auth/data/model/student_hive_model.dart';
-import 'package:student_clean_arch/features/auth/domain/entity/student_entity.dart';
+import 'package:hive_and_api_for_class/core/failure/failure.dart';
+import 'package:hive_and_api_for_class/core/network/local/hive_service.dart';
+import 'package:hive_and_api_for_class/features/auth/data/model/auth_hive_model.dart';
+import 'package:hive_and_api_for_class/features/auth/domain/entity/student_entity.dart';
 
 final authLocalDataSourceProvider = Provider(
   (ref) => AuthLocalDataSource(
@@ -14,7 +14,7 @@ final authLocalDataSourceProvider = Provider(
 
 class AuthLocalDataSource {
   final HiveService _hiveService;
-  final StudentHiveModel _authHiveModel;
+  final AuthHiveModel _authHiveModel;
 
   AuthLocalDataSource(this._hiveService, this._authHiveModel);
 
@@ -32,7 +32,7 @@ class AuthLocalDataSource {
     String password,
   ) async {
     try {
-      StudentHiveModel? students = await _hiveService.login(username, password);
+      AuthHiveModel? students = await _hiveService.login(username, password);
       if (students == null) {
         return Left(Failure(error: 'Username or password is wrong'));
       } else {

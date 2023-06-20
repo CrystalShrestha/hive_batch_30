@@ -1,4 +1,4 @@
-# student_clean_arch
+# hive_and_api_for_class
 
 A new Flutter project.
 

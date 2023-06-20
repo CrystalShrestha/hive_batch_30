@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/config/constants/api_endpoint.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/core/network/remote/http_service.dart';
-import 'package:student_clean_arch/features/course/data/dto/get_all_course_dto.dart';
-import 'package:student_clean_arch/features/course/data/model/course_api_model.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
+
+import '../../../../config/constants/api_endpoint.dart';
+import '../../../../core/failure/failure.dart';
+import '../../../../core/network/remote/http_service.dart';
+import '../../domain/entity/course_entity.dart';
+import '../dto/get_all_course_dto.dart';
+import '../model/course_api_model.dart';
 
 final courseRemoteDataSourceProvider = Provider((ref) => CourseRemoteDataSource(
     dio: ref.read(httpServiceProvider),

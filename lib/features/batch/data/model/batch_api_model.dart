@@ -1,9 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_and_api_for_class/features/batch/domain/entity/batch_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:student_clean_arch/features/batch/domain/entity/batch_entity.dart';
 
-// dart run build_runner build --delete-conflicting-outputs
 part 'batch_api_model.g.dart';
 
 final batchApiModelProvider = Provider<BatchApiModel>(
@@ -11,8 +9,8 @@ final batchApiModelProvider = Provider<BatchApiModel>(
 );
 
 @JsonSerializable()
-class BatchApiModel extends Equatable {
-  @JsonKey(name: 'id')
+class BatchApiModel {
+  @JsonKey(name: '_id')
   final String? batchId;
   final String batchName;
 
@@ -44,7 +42,4 @@ class BatchApiModel extends Equatable {
   // Convert API List to Entity List
   List<BatchEntity> toEntityList(List<BatchApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
-
-  @override
-  List<Object?> get props => [batchId, batchName];
 }

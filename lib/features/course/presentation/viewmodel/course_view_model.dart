@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
-import 'package:student_clean_arch/features/course/domain/use_case/course_usecase.dart';
-import 'package:student_clean_arch/features/course/presentation/state/course_state.dart';
+
+import '../../domain/entity/course_entity.dart';
+import '../../domain/use_case/course_usecase.dart';
+import '../state/course_state.dart';
 
 final courseViewModelProvider =
     StateNotifierProvider<CourseViewModel, CourseState>(
@@ -31,7 +32,7 @@ class CourseViewModel extends StateNotifier<CourseState> {
 
     data.fold(
       (l) => state.copyWith(isLoading: false, error: l.error),
-      (r) => state = state.copyWith(isLoading: false, courses: r, error: null),
+      (r) => state = state.copyWith(isLoading: false, error: null),
     );
   }
 }

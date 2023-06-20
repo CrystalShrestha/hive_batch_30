@@ -1,7 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
+
+import '../../domain/entity/course_entity.dart';
 
 // dart run build_runner build --delete-conflicting-outputs
 part 'course_api_model.g.dart';
@@ -11,7 +11,7 @@ final courseApiModelProvider = Provider<CourseApiModel>(
 );
 
 @JsonSerializable()
-class CourseApiModel extends Equatable {
+class CourseApiModel {
   @JsonKey(name: 'id')
   final String? courseId;
   final String courseName;
@@ -44,7 +44,4 @@ class CourseApiModel extends Equatable {
   // Convert API List to Entity List
   List<CourseEntity> toEntityList(List<CourseApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
-
-  @override
-  List<Object?> get props => [courseId, courseName];
 }

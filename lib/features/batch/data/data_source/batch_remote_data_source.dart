@@ -1,22 +1,28 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/config/constants/api_endpoint.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/core/network/remote/http_service.dart';
-import 'package:student_clean_arch/features/batch/data/dto/get_all_batch_dto.dart';
-import 'package:student_clean_arch/features/batch/data/model/batch_api_model.dart';
-import 'package:student_clean_arch/features/batch/domain/entity/batch_entity.dart';
+import 'package:hive_and_api_for_class/config/constants/api_endpoint.dart';
+import 'package:hive_and_api_for_class/core/failure/failure.dart';
+import 'package:hive_and_api_for_class/core/network/remote/http_service.dart';
+import 'package:hive_and_api_for_class/features/batch/data/dto/get_all_batch_dto.dart';
+import 'package:hive_and_api_for_class/features/batch/data/model/batch_api_model.dart';
+import 'package:hive_and_api_for_class/features/batch/domain/entity/batch_entity.dart';
 
-final batchRemoteDataSourceProvider = Provider((ref) => BatchRemoteDataSource(
+final batchRemoteDataSourceProvider = Provider(
+  (ref) => BatchRemoteDataSource(
     dio: ref.read(httpServiceProvider),
-    batchApiModel: ref.read(batchApiModelProvider)));
+    batchApiModel: ref.read(batchApiModelProvider),
+  ),
+);
 
 class BatchRemoteDataSource {
   final Dio dio;
   final BatchApiModel batchApiModel;
 
-  BatchRemoteDataSource({required this.dio, required this.batchApiModel});
+  BatchRemoteDataSource({
+    required this.dio,
+    required this.batchApiModel,
+  });
 
   Future<Either<Failure, bool>> addBatch(BatchEntity batch) async {
     try {
@@ -35,7 +41,7 @@ class BatchRemoteDataSource {
           ),
         );
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(
         Failure(
           error: e.message.toString(),
@@ -60,7 +66,7 @@ class BatchRemoteDataSource {
           ),
         );
       }
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return Left(
         Failure(
           error: e.error.toString(),
@@ -69,3 +75,11 @@ class BatchRemoteDataSource {
     }
   }
 }
+
+
+
+//  // 1st way
+//         var batches = (response.data['data'] as List)
+//             .map((batch) => BatchApiModel.fromJson(batch).toEntity())
+//             .toList();
+//         return Right(batches);

@@ -1,31 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_and_api_for_class/config/constants/hive_table_constant.dart';
+import 'package:hive_and_api_for_class/features/auth/data/model/auth_hive_model.dart';
+import 'package:hive_and_api_for_class/features/batch/data/model/batch_hive_model.dart';
+import 'package:hive_and_api_for_class/features/course/data/model/course_hive_model.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:student_clean_arch/config/constants/hive_table_constant.dart';
-import 'package:student_clean_arch/features/batch/data/model/batch_hive_model.dart';
 
-import '../../../features/auth/data/model/student_hive_model.dart';
-import '../../../features/course/data/model/course_hive_model.dart';
-
-final hiveServiceProvider = Provider(
-  (ref) => HiveService(),
-);
+final hiveServiceProvider = Provider<HiveService>((ref) => HiveService());
 
 class HiveService {
   Future<void> init() async {
     var directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
 
-    //register adapters
-    Hive.registerAdapter(StudentHiveModelAdapter());
+    // Register Adapters
+    Hive.registerAdapter(AuthHiveModelAdapter());
     Hive.registerAdapter(BatchHiveModelAdapter());
     Hive.registerAdapter(CourseHiveModelAdapter());
 
-    //add dummy data
+    // Add dummy data
     await addDummybatch();
-    await addDummycourse();
+    await addDummyCourse();
   }
 
+  // ======================== Batch Queries ========================
   Future<void> addBatch(BatchHiveModel batch) async {
     var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
     await box.put(batch.batchId, batch);
@@ -33,11 +31,12 @@ class HiveService {
 
   Future<List<BatchHiveModel>> getAllBatches() async {
     var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
-    var bacthes = box.values.toList();
-    return bacthes;
+    var batches = box.values.toList();
+    box.close();
+    return batches;
   }
 
-  //====================course queries==========================
+  // ======================== Course Queries ========================
   Future<void> addCourse(CourseHiveModel course) async {
     var box = await Hive.openBox<CourseHiveModel>(HiveTableConstant.courseBox);
     await box.put(course.courseId, course);
@@ -46,38 +45,36 @@ class HiveService {
   Future<List<CourseHiveModel>> getAllCourses() async {
     var box = await Hive.openBox<CourseHiveModel>(HiveTableConstant.courseBox);
     var courses = box.values.toList();
+    box.close();
     return courses;
   }
 
   // ======================== Student Queries ========================
-  Future<void> addStudent(StudentHiveModel student) async {
-    var box =
-        await Hive.openBox<StudentHiveModel>(HiveTableConstant.studentBox);
-    await box.put(student.id, student);
+  Future<void> addStudent(AuthHiveModel student) async {
+    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.studentBox);
+    await box.put(student.studentId, student);
   }
 
-  Future<List<StudentHiveModel>> getAllStudents() async {
-    var box =
-        await Hive.openBox<StudentHiveModel>(HiveTableConstant.studentBox);
+  Future<List<AuthHiveModel>> getAllStudents() async {
+    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.studentBox);
     var students = box.values.toList();
     box.close();
     return students;
   }
 
   //Login
-  Future<StudentHiveModel?> login(String username, String password) async {
-    var box =
-        await Hive.openBox<StudentHiveModel>(HiveTableConstant.studentBox);
+  Future<AuthHiveModel?> login(String username, String password) async {
+    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.studentBox);
     var student = box.values.firstWhere((element) =>
         element.username == username && element.password == password);
     box.close();
     return student;
   }
 
-  //============================ Insert dummy data============================
-  //bacth dummy data
+  // ======================== Insert Dummy Data ========================
+  // Batch Dummy Data
   Future<void> addDummybatch() async {
-    //check of batch box is empty
+    // check of batch box is empty
     var box = await Hive.openBox<BatchHiveModel>(HiveTableConstant.batchBox);
     if (box.isEmpty) {
       final batch1 = BatchHiveModel(batchName: '29-A');
@@ -87,16 +84,15 @@ class HiveService {
 
       List<BatchHiveModel> batches = [batch1, batch2, batch3, batch4];
 
-      //insert batch key
+      // Insert batch with key
       for (var batch in batches) {
-        await box.put(batch.batchId, batch);
+        await addBatch(batch);
       }
     }
   }
 
-  //course dummy data
-  Future<void> addDummycourse() async {
-    //check of course box is empty
+  Future<void> addDummyCourse() async {
+    // check of course box is empty
     var box = await Hive.openBox<CourseHiveModel>(HiveTableConstant.courseBox);
     if (box.isEmpty) {
       final course1 = CourseHiveModel(courseName: 'Flutter');
@@ -106,10 +102,31 @@ class HiveService {
 
       List<CourseHiveModel> courses = [course1, course2, course3, course4];
 
-      //insert course key
+      // Insert course with key
       for (var course in courses) {
-        await box.put(course.courseId, course);
+        await addCourse(course);
       }
     }
+  }
+
+  // ======================== Delete All Data ========================
+  Future<void> deleteAllData() async {
+    var box = await Hive.openBox<AuthHiveModel>(HiveTableConstant.studentBox);
+    await box.clear();
+  }
+
+  // ======================== Close Hive ========================
+  Future<void> closeHive() async {
+    await Hive.close();
+  }
+
+  // ======================== Delete Hive ========================
+  Future<void> deleteHive() async {
+    var directory = await getApplicationDocumentsDirectory();
+    Hive.init(directory.path);
+    await Hive.deleteBoxFromDisk(HiveTableConstant.studentBox);
+    await Hive.deleteBoxFromDisk(HiveTableConstant.batchBox);
+    await Hive.deleteBoxFromDisk(HiveTableConstant.courseBox);
+    await Hive.deleteFromDisk();
   }
 }

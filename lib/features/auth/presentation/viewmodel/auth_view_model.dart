@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/features/auth/domain/entity/student_entity.dart';
-import 'package:student_clean_arch/features/auth/domain/use_case/auth_usecase.dart';
-import 'package:student_clean_arch/features/auth/presentation/state/auth_state.dart';
+import 'package:hive_and_api_for_class/features/auth/domain/entity/student_entity.dart';
+import 'package:hive_and_api_for_class/features/auth/domain/use_case/auth_usecase.dart';
+import 'package:hive_and_api_for_class/features/auth/presentation/state/auth_state.dart';
 
 final authViewModelProvider =
     StateNotifierProvider<AuthViewModel, AuthState>((ref) {
@@ -46,3 +46,4 @@ class AuthViewModel extends StateNotifier<AuthState> {
     return isLogin;
   }
 }
+

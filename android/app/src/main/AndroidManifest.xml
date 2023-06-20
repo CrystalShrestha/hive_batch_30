@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
-        android:label="student_clean_arch"
+        android:label="hive_and_api_for_class"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

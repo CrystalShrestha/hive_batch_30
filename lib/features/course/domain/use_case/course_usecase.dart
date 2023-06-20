@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
-import 'package:student_clean_arch/features/course/domain/repository/course_repository.dart';
+
+import '../entity/course_entity.dart';
+import '../repository/course_repository.dart';
 
 final courseUseCaseProvider = Provider<CourseUseCase>(
   (ref) => CourseUseCase(
@@ -15,11 +15,11 @@ class CourseUseCase {
 
   CourseUseCase({required this.courseRepository});
 
-  Future<Either<Failure, List<CourseEntity>>> getAllCourses() {
+  Future<Either<dynamic, List>> getAllCourses() {
     return courseRepository.getAllCourses();
   }
 
-  Future<Either<Failure, bool>> addCourse(CourseEntity course) {
+  Future<Either<dynamic, bool>> addCourse(CourseEntity course) {
     return courseRepository.addCourse(course);
   }
 }

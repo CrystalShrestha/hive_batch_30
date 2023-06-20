@@ -1,4 +1,4 @@
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
+import '../../domain/entity/course_entity.dart';
 
 class CourseState {
   final bool isLoading;

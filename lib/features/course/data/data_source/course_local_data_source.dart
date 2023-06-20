@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:student_clean_arch/core/failure/failure.dart';
-import 'package:student_clean_arch/core/network/local/hive_service.dart';
-import 'package:student_clean_arch/features/course/data/model/course_hive_model.dart';
-import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
+
+import '../../../../core/failure/failure.dart';
+import '../../../../core/network/local/hive_service.dart';
+import '../../domain/entity/course_entity.dart';
+import '../model/course_hive_model.dart';
 
 final courseLocalDataSourceProvider = Provider(
   (ref) => CourseLocalDataSource(
