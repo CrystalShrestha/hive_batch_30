@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_and_api_for_class/core/failure/failure.dart';
-import 'package:hive_and_api_for_class/core/network/local/hive_service.dart';
-import 'package:hive_and_api_for_class/features/batch/data/model/batch_hive_model.dart';
-import 'package:hive_and_api_for_class/features/batch/domain/entity/batch_entity.dart';
+import 'package:student_clean_arch/core/failure/failure.dart';
+import 'package:student_clean_arch/core/network/local/hive_service.dart';
+import 'package:student_clean_arch/features/batch/data/model/batch_hive_model.dart';
+import 'package:student_clean_arch/features/batch/domain/entity/batch_entity.dart';
 
-// Dependency Injection using Riverpod
-final batchLocalDataSourceProvider = Provider<BatchLocalDataSource>((ref) {
-  return BatchLocalDataSource(
+final batchLocalDataSourceProvider = Provider(
+  (ref) => BatchLocalDataSource(
       hiveService: ref.read(hiveServiceProvider),
-      batchHiveModel: ref.read(batchHiveModelProvider));
-});
+      batchHiveModel: ref.read(
+        batchHiveModelProvider,
+      )),
+);
 
 class BatchLocalDataSource {
   final HiveService hiveService;
@@ -21,12 +22,12 @@ class BatchLocalDataSource {
     required this.batchHiveModel,
   });
 
-  // Add Batch
+  // Add batch
   Future<Either<Failure, bool>> addBatch(BatchEntity batch) async {
     try {
-      // Convert Entity to Hive Object
+      //convert entity to hive object
       final hiveBatch = batchHiveModel.toHiveModel(batch);
-      // Add to Hive
+      // Add to hive
       await hiveService.addBatch(hiveBatch);
       return const Right(true);
     } catch (e) {
@@ -34,11 +35,12 @@ class BatchLocalDataSource {
     }
   }
 
+  //get all batch
   Future<Either<Failure, List<BatchEntity>>> getAllBatches() async {
     try {
-      // Get all batches from Hive
+      //get all batches from hive
       final batches = await hiveService.getAllBatches();
-      // Convert Hive Object to Entity
+      // convert hive object into entity
       final batchEntities = batchHiveModel.toEntityList(batches);
       return Right(batchEntities);
     } catch (e) {

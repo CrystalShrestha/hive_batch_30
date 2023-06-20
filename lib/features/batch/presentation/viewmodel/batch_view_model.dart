@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_and_api_for_class/features/batch/domain/entity/batch_entity.dart';
-import 'package:hive_and_api_for_class/features/batch/domain/use_case/batch_use_case.dart';
-import 'package:hive_and_api_for_class/features/batch/presentation/state/batch_state.dart';
+import 'package:student_clean_arch/features/batch/domain/entity/batch_entity.dart';
+import 'package:student_clean_arch/features/batch/domain/use_case/batch_usecase.dart';
+import 'package:student_clean_arch/features/batch/presentation/state/batch_state.dart';
 
 final batchViewModelProvider =
     StateNotifierProvider<BatchViewModel, BatchState>(
-  (ref) => BatchViewModel(ref.read(batchUsecaseProvider)),
+  (ref) => BatchViewModel(ref.read(batchUseCaseProvider)),
 );
 
 class BatchViewModel extends StateNotifier<BatchState> {
@@ -15,22 +15,22 @@ class BatchViewModel extends StateNotifier<BatchState> {
     getAllBatches();
   }
 
-  addBatch(BatchEntity batch) async {
+  Future<void> addBatch(BatchEntity batch) async {
     state.copyWith(isLoading: true);
     var data = await batchUseCase.addBatch(batch);
 
     data.fold(
-      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (l) => state.copyWith(isLoading: false, error: l.error),
       (r) => state = state.copyWith(isLoading: false, error: null),
     );
   }
 
-  getAllBatches() async {
-    state = state.copyWith(isLoading: true);
+  Future<void> getAllBatches() async {
+    state.copyWith(isLoading: true);
     var data = await batchUseCase.getAllBatches();
 
     data.fold(
-      (l) => state = state.copyWith(isLoading: false, error: l.error),
+      (l) => state.copyWith(isLoading: false, error: l.error),
       (r) => state = state.copyWith(isLoading: false, batches: r, error: null),
     );
   }

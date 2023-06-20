@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_and_api_for_class/config/constants/api_endpoint.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:student_clean_arch/config/constants/api_endpoint.dart';
 
 import 'dio_error_interceptor.dart';
 

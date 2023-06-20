@@ -1,10 +1,10 @@
 {
-    "name": "hive_and_api_for_class",
-    "short_name": "hive_and_api_for_class",
+    "name": "student_clean_arch",
+    "short_name": "student_clean_arch",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
-    "theme_color": "#0175C2", 
+    "theme_color": "#0175C2",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,

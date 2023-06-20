@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_and_api_for_class/config/constants/hive_table_constant.dart';
-import 'package:hive_and_api_for_class/features/batch/domain/entity/batch_entity.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
+import 'package:student_clean_arch/config/constants/hive_table_constant.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../domain/entity/batch_entity.dart';
+
+// dart run build_runner build --delete-conflicting-outputs
 part 'batch_hive_model.g.dart';
 
 final batchHiveModelProvider = Provider(
@@ -13,37 +15,32 @@ final batchHiveModelProvider = Provider(
 @HiveType(typeId: HiveTableConstant.batchTableId)
 class BatchHiveModel {
   @HiveField(0)
-  final String batchId;
-
+  final String? batchId;
   @HiveField(1)
   final String batchName;
 
-  // empty constructor
-  BatchHiveModel.empty() : this(batchId: '', batchName: '');
+  //empty constructor
+  BatchHiveModel.empty() : this(batchId: "", batchName: "");
 
   BatchHiveModel({
     String? batchId,
     required this.batchName,
   }) : batchId = batchId ?? const Uuid().v4();
 
-  // Convert Hive Object to Entity
-  BatchEntity toEntity() => BatchEntity(
-        batchId: batchId,
-        batchName: batchName,
-      );
+  @override
+  String toString() => 'BatchEntity(batchId: $batchId, batchName: $batchName)';
 
-  // Convert Entity to Hive Object
+  //convert hive object to entity
+
+  BatchEntity toEntity() => BatchEntity(batchId: batchId, batchName: batchName);
+
+  //covert entity into hive object
   BatchHiveModel toHiveModel(BatchEntity entity) => BatchHiveModel(
-        // batchId: entity.batchId,
+        //batchId: batachId
         batchName: entity.batchName,
       );
 
-  // Convert Hive List to Entity List
+  // Convert hive list to entity list
   List<BatchEntity> toEntityList(List<BatchHiveModel> models) =>
       models.map((model) => model.toEntity()).toList();
-
-  @override
-  String toString() {
-    return 'batchId: $batchId, batchName: $batchName';
-  }
 }

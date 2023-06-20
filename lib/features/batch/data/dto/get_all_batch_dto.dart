@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import '../model/batch_api_model.dart';
+import 'package:student_clean_arch/features/batch/data/model/batch_api_model.dart';
 
 part 'get_all_batch_dto.g.dart';
 
@@ -20,5 +19,4 @@ class GetAllBatchDTO {
 
   factory GetAllBatchDTO.fromJson(Map<String, dynamic> json) =>
       _$GetAllBatchDTOFromJson(json);
-  //dart run build_runner build --delete-conflicting-outputs
 }

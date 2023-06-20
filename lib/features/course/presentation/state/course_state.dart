@@ -1,31 +1,25 @@
-import 'package:hive_and_api_for_class/features/course/domain/entity/course_entity.dart';
+import 'package:student_clean_arch/features/course/domain/entity/course_entity.dart';
 
 class CourseState {
   final bool isLoading;
-  final String? error;
   final List<CourseEntity> courses;
+  final String? error;
 
-  const CourseState({
-    required this.isLoading,
-    required this.error,
-    required this.courses,
-  });
+  CourseState({required this.isLoading, required this.courses, this.error});
 
-  factory CourseState.initial() => const CourseState(
-        isLoading: false,
-        error: null,
-        courses: [],
-      );
+  factory CourseState.initial() {
+    return CourseState(isLoading: false, courses: []);
+  }
 
   CourseState copyWith({
     bool? isLoading,
-    String? error,
     List<CourseEntity>? courses,
+    String? error,
   }) {
     return CourseState(
       isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
       courses: courses ?? this.courses,
+      error: error ?? this.error,
     );
   }
 }

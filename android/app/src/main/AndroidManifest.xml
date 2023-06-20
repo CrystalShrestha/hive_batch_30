@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="hive_and_api_for_class"
+        android:label="student_clean_arch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
